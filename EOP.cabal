@@ -25,7 +25,7 @@ source-repository head
 
 library
   exposed-modules:
-      Lib
+      Let.Lexer
   other-modules:
       Paths_EOP
   autogen-modules:
@@ -33,8 +33,14 @@ library
   hs-source-dirs:
       src
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
+  build-tools:
+      alex
+    , happy
   build-depends:
-      base >=4.7 && <5
+      array
+    , base
+    , bytestring
+    , containers
   default-language: Haskell2010
 
 executable EOP-exe
@@ -53,15 +59,15 @@ executable EOP-exe
 
 test-suite EOP-test
   type: exitcode-stdio-1.0
-  main-is: Spec.hs
+  main-is: Main.hs
   other-modules:
-      Paths_EOP
-  autogen-modules:
-      Paths_EOP
+      Tests.Let.Lexer
   hs-source-dirs:
       test
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       EOP
     , base >=4.7 && <5
+    , tasty
+    , tasty-hunit
   default-language: Haskell2010

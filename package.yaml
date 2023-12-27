@@ -35,6 +35,14 @@ ghc-options:
 
 library:
   source-dirs: src
+  dependencies: 
+  - array 
+  - base
+  - bytestring 
+  - containers
+  build-tool-depends: 
+  - alex 
+  - happy
 
 executables:
   EOP-exe:
@@ -49,11 +57,15 @@ executables:
 
 tests:
   EOP-test:
-    main:                Spec.hs
+    main:                Main.hs
     source-dirs:         test
+    other-modules:
+      - Tests.Let.Lexer
     ghc-options:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
     - EOP
+    - tasty 
+    - tasty-hunit
