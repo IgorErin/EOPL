@@ -25,7 +25,10 @@ source-repository head
 
 library
   exposed-modules:
+      Let.Ast
+      Let.Frontend
       Let.Lexer
+      Let.Parser
   other-modules:
       Paths_EOP
   autogen-modules:
