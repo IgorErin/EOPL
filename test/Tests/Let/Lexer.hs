@@ -9,8 +9,8 @@ import Let.Lang (lexing)
 
 cases :: [(String, [Token])]
 cases = [
-    ("let in x y lfaef 3252435 ( ) - , minus",
-     [Let,In,Ident "x",Ident "y",Ident "lfaef",Num 3252435,LParent,RParent,Minus,Comma, Neg])
+    ("let in x y lfaef 3252435 ( ) - + * /, minus",
+     [Let,In,Ident "x",Ident "y",Ident "lfaef",Num 3252435,LParent,RParent,Minus,Plus, Mul, Div,Comma, Neg])
     ]
 
 tests :: TestTree

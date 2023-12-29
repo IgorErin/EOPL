@@ -15,7 +15,11 @@ cases = [
     ("IsZero 0", bool_ True),
     ("IsZero 342", bool_ False),
     ("minus 4", num (-4)), 
-    ("minus - (0, 5432)", num 5432)]
+    ("minus - (0, 5432)", num 5432),
+    ("+ (6, 3)", num 9),
+    ("- (6, 3)", num 3),
+    ("* (6, 3)", num 18),
+    ("/ (6, 3)", num 2) ]
 
 tests :: TestTree
 tests = 

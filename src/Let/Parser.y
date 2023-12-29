@@ -16,6 +16,9 @@ import Let.Ast as A
    '('      { L.LParent }
    ')'      { L.RParent }
    '-'      { L.Minus }
+   '+'      { L.Plus }
+   '*'      { L.Mul }    
+   '/'      { L.Div }    
    isZero   { L.IsZero }
    if       { L.If }
    then     { L.Then }
@@ -34,6 +37,9 @@ Program : Expr                      { $1}
 Expr 
     : num                           { Num $1 }
     | '-' '(' Expr ',' Expr ')'     { Diff $3 $5 }
+    | '+' '(' Expr ',' Expr ')'     { Sum $3 $5 }
+    | '*' '(' Expr ',' Expr ')'     { Mul $3 $5 }
+    | '/' '(' Expr ',' Expr ')'     { Div $3 $5 }
     | isZero Expr                   { IsZero $2 }
     | if Expr then Expr else Expr   { IfElse $2 $4 $6 }
     | ident                         { Ident $1 }

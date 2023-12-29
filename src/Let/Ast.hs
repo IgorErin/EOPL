@@ -5,6 +5,9 @@ type Ident = String
 data Expr = 
     Num Int 
     | Diff Expr Expr 
+    | Sum Expr Expr 
+    | Mul Expr Expr
+    | Div Expr Expr 
     | IsZero Expr 
     | IfElse Expr Expr Expr 
     | Ident Ident 

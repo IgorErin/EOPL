@@ -23,8 +23,11 @@ cases = [
         (Diff (Ident "x") (Ident "y")))
         (Diff (Diff (Ident "x") (Num 8)) (Ident "y"))))),
     ("minus 4", Neg (Num 4)),
-    ("minus let x = 1 in x", Neg (Let "x" (Num 1) (Ident "x")))
-    ]
+    ("minus let x = 1 in x", Neg (Let "x" (Num 1) (Ident "x"))),
+    ("+ (4, 1)", Sum (Num 4) (Num 1)),
+    ("- (4, 1)", Diff (Num 4) (Num 1)),
+    ("* (4, 1)", Mul (Num 4) (Num 1)),
+    ("/ (4, 1)", Div (Num 4) (Num 1))]
 
 tests :: TestTree
 tests = 

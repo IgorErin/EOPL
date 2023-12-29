@@ -18,6 +18,9 @@ tokens :-
   $digit+               { \s -> Num (read s) }
   "="                   {\_ -> Assign}
   "-"                   { \_ -> Minus}
+  "+"                   { \_ -> Plus}
+  "*"                   { \_ -> Mul}
+  "/"                   { \_ -> Div}
   "minus"               { \_ -> Neg }
   "("                   {\_ -> LParent }
   ")"                   { \_ -> RParent}
@@ -49,6 +52,9 @@ data Token
   | Ident String 
 -- binop 
   | Minus 
+  | Plus 
+  | Mul 
+  | Div
 -- unop 
   | Neg 
   | Comma 
