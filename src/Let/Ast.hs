@@ -9,4 +9,5 @@ data Expr =
     | IfElse Expr Expr Expr 
     | Ident Ident 
     | Let Ident Expr Expr 
+    | Neg Expr 
     deriving (Show, Eq)

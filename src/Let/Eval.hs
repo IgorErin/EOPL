@@ -44,5 +44,8 @@ valueOf env (Let name value body) =
 valueOf env (IfElse cond t e) = 
     let cond' = getBool "IfElse" $ valueOf env cond 
     in if cond' then valueOf env t else valueOf env e 
+valueOf env (Neg e) =
+    let value = getNum "Neg" $ valueOf env e in 
+    num (- value) 
 
 run = valueOf Map.empty 

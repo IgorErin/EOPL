@@ -23,6 +23,7 @@ import Let.Ast as A
    ','      { L.Comma }
    ident    { L.Ident $$ }
    num      { L.Num $$ } 
+   neg      { L.Neg }
 
 %%
 
@@ -37,6 +38,8 @@ Expr
     | if Expr then Expr else Expr   { IfElse $2 $4 $6 }
     | ident                         { Ident $1 }
     | let ident '=' Expr in Expr    { Let $2 $4 $6 }
+    | neg Expr                      { Neg $2 }
+    | '(' Expr ')'                  { $2 }
 
 {
 parseError :: [L.Token] -> a 
