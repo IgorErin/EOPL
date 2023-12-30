@@ -4,13 +4,11 @@ import Test.Tasty
 import Test.Tasty.HUnit ((@?=), testCase)
 
 import Let.Lang (run)
-import Let.Eval (num, bool_, ExpVal)
-
-true_ :: ExpVal 
-true_ = bool_ True
-
-false_ :: ExpVal
-false_ = bool_ False
+import Let.Eval (
+    ExpVal,
+    num, 
+    bool_, false_, true_,
+    cons, nil)
 
 cases :: [(String, ExpVal)]
 cases = [
@@ -33,11 +31,17 @@ cases = [
     (">= (6, 3)", true_),
     ("> (6, 3)", true_),
     ("<= (6, 3)", false_),
-    ("< (6, 3)", false_)]
+    ("< (6, 3)", false_),
+    
+    ("nil", nil),
+    ("cons 3 1", cons (num 3) (num 1)),
+    ("Cdr cons 3 1", num 1),
+    ("Car cons 3 1", num 3),
+    ("let x = cons 1 nil in cons nil x", cons nil (cons (num 1) nil))]
 
 tests :: TestTree
 tests = 
-    testGroup "Lexing" $
+    testGroup "Eval" $
     map (\ (str, expected) -> 
         let x = run str in 
         testCase str $ x @?= expected) 

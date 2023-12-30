@@ -11,7 +11,8 @@ cases = [
     ("let in x y lfaef 3252435 ( ) , minus",
      [Let,In,Ident "x",Ident "y",Ident "lfaef",Num 3252435,LParent,RParent,Comma,Neg]),
      ("- + * /", [Sub, Add, Mul, Div]),
-     ("== /= > >= < <=", [Eq, NEq, Gt, Ge, Lt, Le])
+     ("== /= > >= < <=", [Eq, NEq, Gt, Ge, Lt, Le]),
+     ("cons nil IsNil Cdr Car", [Cons, Nil, IsNil, Cdr, Car])
     ]
 
 tests :: TestTree

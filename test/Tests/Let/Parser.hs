@@ -35,7 +35,16 @@ cases = [
     ("> (3, 1)", gt (Num 3) (Num 1)),
     (">= (3, 1)", ge (Num 3) (Num 1)),
     ("<= (3, 1)", le (Num 3) (Num 1)),
-    ("< (3, 1)", lt (Num 3) (Num 1))]
+    ("< (3, 1)", lt (Num 3) (Num 1)),
+    
+    ("cons 2 3", cons (Num 2) (Num 3)),
+    ("cons 2 nil", cons (Num 2) Nil),
+    ("nil", Nil),
+    ("Cdr nil", cdr Nil),
+    ("Car nil", car Nil),
+    ("let x = cons y 4 in Cdr x", 
+        Let "x" (Bin Cons (Ident "y") (Num 4)) 
+            (Un Cdr (Ident "x")))]
 
 tests :: TestTree
 tests = 

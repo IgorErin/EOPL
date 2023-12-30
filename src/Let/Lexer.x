@@ -16,24 +16,34 @@ tokens :-
   "in"                  { \_ -> In }
   "IsZero"              { \_ -> IsZero }
   $digit+               { \s -> Num (read s) }
+
   "="                   { \_ -> Assign }
   "-"                   { \_ -> Sub }
   "+"                   { \_ -> Add }
   "*"                   { \_ -> Mul }
   "/"                   { \_ -> Div }
+
   ">"                   { \_ -> Gt }
   ">="                  { \_ -> Ge }
   "<"                   { \_ -> Lt }
   "<="                  { \_ -> Le }
   "=="                  { \_ -> Eq }
   "/="                  { \_ -> NEq }
+
   "minus"               { \_ -> Neg }
   "("                   { \_ -> LParent }
   ")"                   { \_ -> RParent}
   ","                   { \_ -> Comma }
+
   "if"                  { \_ -> If }
   "then"                { \_ -> Then }
   "else"                { \_ -> Else }
+-- List 
+  "cons"                { \_ -> Cons }
+  "nil"                 { \_ -> Nil }
+  "IsNil"               { \_ -> IsNil }
+  "Car"                 { \_ -> Car }
+  "Cdr"                 { \_ -> Cdr }
   @ident                { \s -> Ident s }
 
 {
@@ -71,5 +81,11 @@ data Token
   | Le 
   | Eq 
   | NEq 
+-- List 
+  | Cons 
+  | Nil 
+  | IsNil 
+  | Car 
+  | Cdr 
   deriving (Eq, Show)
 }

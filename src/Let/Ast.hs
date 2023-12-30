@@ -1,60 +1,103 @@
 module Let.Ast (
-    Expr (..), Ident, Predicate(..), Arithm(..),
+    Expr (..), Ident, BinOp(..), UnOp(..),
     sub, add, mul, div_, neg,
-    eq, neq, ge, le, gt, lt, isZero) where 
+    eq, neq, ge, le, gt, lt, isZero,
+    nil, car, cdr, cons, isNil) where 
 
 type Ident = String 
 
-data Predicate = Eq | NEq | Gt | Ge | Lt | Le deriving (Show, Eq) 
+data BinOp = 
+    -- Num Arithm 
+    Add 
+    | Sub
+    | Mul 
+    | Div 
+    -- Predicates
+    | Eq 
+    | NEq 
+    | Gt 
+    | Ge 
+    | Lt 
+    | Le 
+    -- List 
+    | Cons 
+    deriving (Eq, Show)
 
-data Arithm = Add | Sub | Mul | Div deriving (Show, Eq)
+data UnOp = 
+    IsNil 
+    | Cdr 
+    | Car 
+    deriving (Eq, Show)
 
 data Expr = 
     Num Int 
     -- arithm 
-    | Arithm Arithm Expr Expr
+    | Bin BinOp Expr Expr
     -- predicates
-    | Pred Predicate Expr Expr 
+    | Un UnOp Expr 
     | IfElse Expr Expr Expr 
     | Ident Ident 
     | Let Ident Expr Expr 
+    | Nil
     deriving (Show, Eq)
 
----- Arithm ----
+---- BinOp  ----
+
 sub :: Expr -> Expr -> Expr
-sub = Arithm Sub 
+sub = Bin Sub 
 
 add :: Expr -> Expr -> Expr
-add = Arithm Add 
+add = Bin Add 
 
 mul :: Expr -> Expr -> Expr
-mul = Arithm Mul 
+mul = Bin Mul 
 
 div_ :: Expr -> Expr -> Expr
-div_ = Arithm Div 
+div_ = Bin Div 
 
 neg :: Expr -> Expr 
-neg = Arithm Sub (Num 0)
+neg = Bin Sub (Num 0)
+
+--------- Un op -----------
+
+cdr :: Expr -> Expr 
+cdr = Un Cdr 
+
+car :: Expr -> Expr 
+car = Un Car
 
 -------- Predicates --------
 
 eq :: Expr -> Expr -> Expr 
-eq = Pred Eq 
+eq = Bin Eq 
 
 neq :: Expr -> Expr -> Expr 
-neq = Pred NEq 
+neq = Bin NEq 
 
 gt :: Expr -> Expr -> Expr 
-gt = Pred Gt 
+gt = Bin Gt 
 
 lt :: Expr -> Expr -> Expr 
-lt = Pred Lt 
+lt = Bin Lt 
 
 ge :: Expr -> Expr -> Expr  
-ge = Pred Ge 
+ge = Bin Ge 
 
 le :: Expr -> Expr -> Expr 
-le = Pred Le 
+le = Bin Le 
+
+----------- Un Pred -------
+
+isNil :: Expr -> Expr 
+isNil = Un IsNil 
 
 isZero :: Expr -> Expr
-isZero = Pred Eq (Num 0)
+isZero = Bin Eq (Num 0)
+
+-------- Constructors ----
+
+nil :: Expr 
+nil = Nil
+
+cons :: Expr -> Expr -> Expr 
+cons = Bin Cons  
