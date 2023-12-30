@@ -60,7 +60,9 @@ tests:
     main:                Main.hs
     source-dirs:         test
     other-modules:
-      - Tests.Let.Lexer
+    - Tests.Let.Lexer
+    - Tests.Let.Eval
+    - Tests.Let.Parser
     ghc-options:
     - -threaded
     - -rtsopts

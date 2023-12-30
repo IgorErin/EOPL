@@ -15,11 +15,6 @@ bool_ = ExpBool
 
 type Env = Map.Map Ident ExpVal 
 
-trueExp :: ExpVal
-trueExp = ExpBool True 
-falseExp :: ExpVal
-falseExp = ExpBool False
-
 getNum :: String -> ExpVal -> Int 
 getNum _ (ExpInt n) = n 
 getNum place _      = error $ "getNum faild in " ++ place  
@@ -34,24 +29,33 @@ binOp env op left right =
         rightValue = getNum "right op" $ valueOf env right 
     in ExpInt (leftValue `op` rightValue)
 
+binPred :: Env -> (Int -> Int -> Bool) -> Expr -> Expr -> ExpVal 
+binPred env p left right = 
+    let leftValue = getNum "left pred" $ valueOf env left 
+        rightValue = getNum "right pred" $ valueOf env right 
+    in ExpBool (leftValue `p` rightValue)
+
 valueOf :: Env -> Expr -> ExpVal
 valueOf env (Ident name) = fromMaybe  (error $ "not found: " ++ name) (Map.lookup name env)
 valueOf _ (Num n) = ExpInt n
-valueOf env (Diff left right) = binOp env (-) left right
-valueOf env (Sum left right) = binOp env  (+) left right 
-valueOf env (Mul left right) = binOp env (*) left right 
-valueOf env (Div left right) = binOp env div left right
-valueOf env (IsZero e) = 
-    let value = getNum "isZero" $ valueOf env e 
-    in if value == 0 then trueExp else falseExp  
+valueOf env (Arithm op left right) = case op of 
+    Add -> binOp env (+) left right 
+    Sub -> binOp env (-) left right 
+    Mul -> binOp env (*) left right 
+    Div -> binOp env div left right
+valueOf env (Pred p left right) = case p of
+    Eq -> binPred env (==) left right  
+    NEq -> binPred env (/=) left right  
+    Gt -> binPred env (>) left right  
+    Ge -> binPred env (>=) left right  
+    Lt -> binPred env (<) left right  
+    Le -> binPred env (<=) left right  
 valueOf env (Let name value body) =
     let env' = Map.insert name (valueOf env value) env
     in valueOf env' body 
 valueOf env (IfElse cond t e) = 
     let cond' = getBool "IfElse" $ valueOf env cond 
-    in if cond' then valueOf env t else valueOf env e 
-valueOf env (Neg e) =
-    let value = getNum "Neg" $ valueOf env e in 
-    num (- value) 
-
+    in if cond' then valueOf env t else valueOf env e
+    
+run :: Expr -> ExpVal
 run = valueOf Map.empty 
