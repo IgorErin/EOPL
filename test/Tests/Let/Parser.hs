@@ -44,7 +44,10 @@ cases = [
     ("Car nil", car Nil),
     ("let x = cons y 4 in Cdr x", 
         Let "x" (Bin Cons (Ident "y") (Num 4)) 
-            (Un Cdr (Ident "x")))]
+            (Un Cdr (Ident "x"))),
+                
+    ("[]", Nil),
+    ("[1, 2, 3, 4]", cons (Num 1) (cons (Num 2) (cons (Num 3) (cons (Num 4) nil))) )]
 
 tests :: TestTree
 tests = 

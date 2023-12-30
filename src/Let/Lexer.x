@@ -44,6 +44,8 @@ tokens :-
   "IsNil"               { \_ -> IsNil }
   "Car"                 { \_ -> Car }
   "Cdr"                 { \_ -> Cdr }
+  "["                   { \_ -> LSquare }
+  "]"                   { \_ -> RSquare }
   @ident                { \s -> Ident s }
 
 {
@@ -61,8 +63,12 @@ data Token
   | Assign 
   | Let 
   | In 
+  -- ()
   | LParent 
   | RParent
+  -- [] 
+  | LSquare
+  | RSquare
 -- Values
   | Num Int
   | Ident String 

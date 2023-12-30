@@ -7,7 +7,7 @@ import Let.Lang (run)
 import Let.Eval (
     ExpVal,
     num, 
-    bool_, false_, true_,
+    false_, true_,
     cons, nil)
 
 cases :: [(String, ExpVal)]
@@ -37,7 +37,13 @@ cases = [
     ("cons 3 1", cons (num 3) (num 1)),
     ("Cdr cons 3 1", num 1),
     ("Car cons 3 1", num 3),
-    ("let x = cons 1 nil in cons nil x", cons nil (cons (num 1) nil))]
+    ("let x = cons 1 nil in cons nil x", cons nil (cons (num 1) nil)),
+    
+    ("[]", nil),
+    ("[1, 2, 3, 4]", cons (num 1) (cons (num 2) (cons (num 3) (cons (num 4) nil)))),
+    ("let x = [1, 2, 3] in Car x", num 1), 
+    ("let x = [1, 2, 3] in Cdr x", cons (num 2) (cons (num 3) nil)),
+    ("let x = [] in [x , 2, - (1, 2)]", cons nil (cons (num 2) (cons (num (-1)) nil)))]
 
 tests :: TestTree
 tests = 

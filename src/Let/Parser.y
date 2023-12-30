@@ -17,6 +17,9 @@ import Let.Ast as A
    '('      { L.LParent }
    ')'      { L.RParent }
 
+   '['      { L.LSquare }
+   ']'      { L.RSquare }
+
    '-'      { L.Sub }
    '+'      { L.Add }
    '*'      { L.Mul }    
@@ -48,10 +51,10 @@ import Let.Ast as A
    isNil    { L.IsNil }
 %%
 
--- Program :: { A.Expr }
+Program :: { A.Expr }
 Program : Expr                      { $1}
 
--- Expr :: { A.Expr }
+Expr :: { A.Expr }
 Expr 
     : num                           { Num $1 }
     | '-' '(' Expr ',' Expr ')'     { A.sub $3 $5 }
@@ -78,7 +81,17 @@ Expr
     | isNil Expr                    { A.isNil $2 }          
     | car Expr                      { A.car $2 }
     | cdr Expr                      { A.cdr $2 }
+    | List                          { $1 }
 
+List :: { A.Expr }
+List : 
+   '[' ']'                          { A.nil }
+   | '[' SubList ']'                { foldr A.cons A.nil $ reverse $2 }
+
+SubList :: { [A.Expr] }
+SubList 
+   : SubList ',' Expr               { $3 : $1 } 
+   | Expr                           { [$1] }
 {
 parseError :: [L.Token] -> a 
 parseError _ = error "Parse error"
