@@ -2,7 +2,8 @@ module Let.Ast (
     Expr (..), Ident, BinOp(..), UnOp(..),
     sub, add, mul, div_, neg,
     eq, neq, ge, le, gt, lt, isZero,
-    nil, car, cdr, cons, isNil) where 
+    nil, car, cdr, cons, isNil,
+    variants) where 
 
 type Ident = String 
 
@@ -39,6 +40,7 @@ data Expr =
     | Ident Ident 
     | Let Ident Expr Expr 
     | Nil
+    | Variants [(Expr, Expr)]
     deriving (Show, Eq)
 
 ---- BinOp  ----
@@ -101,3 +103,7 @@ nil = Nil
 
 cons :: Expr -> Expr -> Expr 
 cons = Bin Cons  
+--------- Variants ------
+
+variants :: [(Expr, Expr)] -> Expr
+variants = Variants

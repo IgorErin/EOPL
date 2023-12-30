@@ -43,7 +43,9 @@ cases = [
     ("[1, 2, 3, 4]", cons (num 1) (cons (num 2) (cons (num 3) (cons (num 4) nil)))),
     ("let x = [1, 2, 3] in Car x", num 1), 
     ("let x = [1, 2, 3] in Cdr x", cons (num 2) (cons (num 3) nil)),
-    ("let x = [] in [x , 2, - (1, 2)]", cons nil (cons (num 2) (cons (num (-1)) nil)))]
+    ("let x = [] in [x , 2, - (1, 2)]", cons nil (cons (num 2) (cons (num (-1)) nil))),
+    
+    ("cond (< (1, 2)) -> 1 | (> (1, 2)) -> 2 end", num 1)]
 
 tests :: TestTree
 tests = 

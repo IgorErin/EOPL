@@ -102,6 +102,11 @@ valueOf env (IfElse cond t e) =
     let cond' = getBool "IfElse" $ valueOf env cond 
     in if cond' then valueOf env t else valueOf env e
 valueOf _ Nil = ExpList ExpNil    
+valueOf env (Variants ls) = 
+    foldr (\ (cond, body) right -> 
+        let condValue = getBool "Cond" $ valueOf env cond 
+        in if condValue then valueOf env body else right) 
+    (error "No cond sat") ls 
 
 run :: Expr -> ExpVal
 run = valueOf Map.empty 

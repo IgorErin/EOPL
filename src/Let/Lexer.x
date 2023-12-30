@@ -31,21 +31,30 @@ tokens :-
   "/="                  { \_ -> NEq }
 
   "minus"               { \_ -> Neg }
-  "("                   { \_ -> LParent }
-  ")"                   { \_ -> RParent}
   ","                   { \_ -> Comma }
 
+  "("                   { \_ -> LParent }
+  ")"                   { \_ -> RParent}
+  "["                   { \_ -> LSquare }
+  "]"                   { \_ -> RSquare }
+  "{"                   { \_ -> LCurly }
+  "}"                   { \_ -> RCurly }
+-- controlflow 
   "if"                  { \_ -> If }
   "then"                { \_ -> Then }
   "else"                { \_ -> Else }
+  "cond"                { \_ -> Cond }
 -- List 
   "cons"                { \_ -> Cons }
   "nil"                 { \_ -> Nil }
   "IsNil"               { \_ -> IsNil }
   "Car"                 { \_ -> Car }
   "Cdr"                 { \_ -> Cdr }
-  "["                   { \_ -> LSquare }
-  "]"                   { \_ -> RSquare }
+
+  "->"                  { \_ -> Arrow }
+  "end"                 { \_ -> End }
+  "|"                   { \_ -> VBar }
+
   @ident                { \s -> Ident s }
 
 {
@@ -69,6 +78,9 @@ data Token
   -- [] 
   | LSquare
   | RSquare
+  -- {}
+  | LCurly 
+  | RCurly
 -- Values
   | Num Int
   | Ident String 
@@ -93,5 +105,10 @@ data Token
   | IsNil 
   | Car 
   | Cdr 
+  -- -> 
+  | Arrow
+  | End
+  | Cond
+  | VBar
   deriving (Eq, Show)
 }

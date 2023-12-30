@@ -47,7 +47,14 @@ cases = [
             (Un Cdr (Ident "x"))),
                 
     ("[]", Nil),
-    ("[1, 2, 3, 4]", cons (Num 1) (cons (Num 2) (cons (Num 3) (cons (Num 4) nil))) )]
+    ("[1, 2, 3, 4]", cons (Num 1) (cons (Num 2) (cons (Num 3) (cons (Num 4) nil)))),
+    
+    ("cond (> (1, 2)) -> 1 | (<= (1, 2)) -> 2 end", 
+        Variants [(Bin Gt (Num 1) (Num 2),Num 1),(Bin Le (Num 1) (Num 2),Num 2)]),
+    ("cond | (> (1, 2)) -> 1 | (<= (1, 2)) -> 2 end", 
+        Variants [(Bin Gt (Num 1) (Num 2),Num 1),(Bin Le (Num 1) (Num 2),Num 2)]),
+    ("cond | (> (1, 2)) -> 1 end", 
+        Variants [(Bin Gt (Num 1) (Num 2),Num 1)])]
 
 tests :: TestTree
 tests = 

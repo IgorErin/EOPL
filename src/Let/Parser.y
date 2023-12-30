@@ -49,6 +49,11 @@ import Let.Ast as A
    cdr      { L.Cdr }
    car      { L.Car }
    isNil    { L.IsNil }
+
+   cond     { L.Cond }
+   end      { L.End }
+   '->'     { L.Arrow }
+   '|'      { L.VBar }
 %%
 
 Program :: { A.Expr }
@@ -82,6 +87,15 @@ Expr
     | car Expr                      { A.car $2 }
     | cdr Expr                      { A.cdr $2 }
     | List                          { $1 }
+    | cond Variants end             { A.variants $ reverse $2 }
+
+Variants :: { [(A.Expr, A.Expr)] }
+Variants 
+   : Variants '|' Variant           { $3 : $1 }
+   | opt('|') Variant               { [$2] }
+
+Variant :: {(A.Expr, A.Expr)} 
+Variant : Expr '->' Expr            { ($1, $3) }
 
 List :: { A.Expr }
 List : 
@@ -92,6 +106,13 @@ SubList :: { [A.Expr] }
 SubList 
    : SubList ',' Expr               { $3 : $1 } 
    | Expr                           { [$1] }
+
+-------------------- Helpers -----------------
+
+opt(p) 
+   : p                              { Just $1 }
+   | {- empty -}                    { Nothing }  
+
 {
 parseError :: [L.Token] -> a 
 parseError _ = error "Parse error"
